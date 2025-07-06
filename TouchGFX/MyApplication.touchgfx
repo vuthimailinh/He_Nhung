@@ -27,20 +27,13 @@
             "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
           },
           {
-            "Type": "TextArea",
-            "Name": "galaga",
-            "X": 38,
-            "Y": 136,
-            "Width": 165,
-            "Height": 41,
-            "TextId": "__SingleUse_YGKB",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 222,
-              "Green": 222,
-              "Blue": 38
-            },
-            "AutoSize": true
+            "Type": "Image",
+            "Name": "image1",
+            "X": 30,
+            "Y": 95,
+            "Width": 180,
+            "Height": 83,
+            "RelativeFilename": "galaga_logo.png"
           }
         ],
         "Interactions": [
@@ -65,10 +58,10 @@
           {
             "Type": "Image",
             "Name": "playerShip",
-            "X": 98,
-            "Y": 271,
-            "Width": 46,
-            "Height": 48,
+            "X": 108,
+            "Y": 280,
+            "Width": 23,
+            "Height": 24,
             "RelativeFilename": "PlayerShip.png"
           },
           {
@@ -76,15 +69,15 @@
             "Name": "playerBullet",
             "X": 114,
             "Y": 208,
-            "Width": 12,
-            "Height": 32,
+            "Width": 3,
+            "Height": 8,
             "RelativeFilename": "PlayerBullet.png"
           },
           {
             "Type": "TextArea",
             "Name": "gameOver",
-            "X": 6,
-            "Y": 140,
+            "X": 7,
+            "Y": 73,
             "Width": 228,
             "Height": 41,
             "TextId": "__SingleUse_OJVB",
@@ -149,15 +142,6 @@
           },
           {
             "Type": "Image",
-            "Name": "home",
-            "X": 190,
-            "Y": 270,
-            "Width": 50,
-            "Height": 50,
-            "RelativeFilename": "__generated\\icon_theme_images_action_home_50_50_000000.svg.png"
-          },
-          {
-            "Type": "Image",
             "Name": "bossBullet",
             "X": 105,
             "Y": 32,
@@ -173,9 +157,79 @@
             "Width": 26,
             "Height": 20,
             "RelativeFilename": "Butterfly.png"
+          },
+          {
+            "Type": "Button",
+            "Name": "homeButton",
+            "X": 189,
+            "Y": 270,
+            "Width": 50,
+            "Height": 50,
+            "Pressed": "__generated\\icon_theme_images_action_home_50_50_000000.svg.png",
+            "Released": "__generated\\icon_theme_images_action_home_50_50_FFFFFF.svg.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textScore",
+            "X": 79,
+            "Y": 132,
+            "Width": 86,
+            "Height": 24,
+            "Visible": false,
+            "TextId": "__SingleUse_55Z0",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_99PA",
+              "UseBuffer": true,
+              "BufferSize": 20
+            },
+            "WideTextAction": 1
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textHighScore",
+            "X": 60,
+            "Y": 208,
+            "Width": 138,
+            "Height": 24,
+            "Visible": false,
+            "TextId": "__SingleUse_4J5B",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_RUMF",
+              "UseBuffer": true,
+              "BufferSize": 20
+            },
+            "WideTextAction": 1
           }
         ],
-        "Interactions": []
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "homeButton"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionSlide",
+              "ScreenTransitionDirection": "West",
+              "ActionComponent": "Screen1"
+            }
+          }
+        ]
       }
     ],
     "CustomContainerDefinitions": [],

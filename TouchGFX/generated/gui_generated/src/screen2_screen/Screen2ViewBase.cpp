@@ -6,13 +6,14 @@
 #include <images/BitmapDatabase.hpp>
 #include <texts/TextKeysAndLanguages.hpp>
 
-Screen2ViewBase::Screen2ViewBase()
+Screen2ViewBase::Screen2ViewBase() :
+    buttonCallback(this, &Screen2ViewBase::buttonCallbackHandler)
 {
     __background.setPosition(0, 0, 240, 320);
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
 
-    playerShip.setXY(98, 271);
+    playerShip.setXY(108, 280);
     playerShip.setBitmap(touchgfx::Bitmap(BITMAP_PLAYERSHIP_ID));
     add(playerShip);
 
@@ -20,7 +21,7 @@ Screen2ViewBase::Screen2ViewBase()
     playerBullet.setBitmap(touchgfx::Bitmap(BITMAP_PLAYERBULLET_ID));
     add(playerBullet);
 
-    gameOver.setXY(6, 140);
+    gameOver.setXY(7, 73);
     gameOver.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     gameOver.setLinespacing(0);
     gameOver.setTypedText(touchgfx::TypedText(T___SINGLEUSE_OJVB));
@@ -48,10 +49,6 @@ Screen2ViewBase::Screen2ViewBase()
     win.setTypedText(touchgfx::TypedText(T___SINGLEUSE_MJHX));
     add(win);
 
-    home.setXY(190, 270);
-    home.setBitmap(touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_HOME_50_50_000000_SVG_ID));
-    add(home);
-
     bossBullet.setXY(105, 32);
     bossBullet.setBitmap(touchgfx::Bitmap(BITMAP_BULLET_ID));
     add(bossBullet);
@@ -59,6 +56,33 @@ Screen2ViewBase::Screen2ViewBase()
     enemy1.setXY(189, 104);
     enemy1.setBitmap(touchgfx::Bitmap(BITMAP_BUTTERFLY_ID));
     add(enemy1);
+
+    homeButton.setXY(189, 270);
+    homeButton.setBitmaps(touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_HOME_50_50_FFFFFF_SVG_ID), touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_HOME_50_50_000000_SVG_ID));
+    homeButton.setAction(buttonCallback);
+    add(homeButton);
+
+    textScore.setXY(79, 132);
+    textScore.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textScore.setLinespacing(0);
+    textScore.setWideTextAction(WIDE_TEXT_WORDWRAP);
+    Unicode::snprintf(textScoreBuffer, TEXTSCORE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_99PA).getText());
+    textScore.setWildcard(textScoreBuffer);
+    textScore.resizeToCurrentText();
+    textScore.setTypedText(touchgfx::TypedText(T___SINGLEUSE_55Z0));
+    textScore.setVisible(false);
+    add(textScore);
+
+    textHighScore.setXY(60, 208);
+    textHighScore.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textHighScore.setLinespacing(0);
+    textHighScore.setWideTextAction(WIDE_TEXT_WORDWRAP);
+    Unicode::snprintf(textHighScoreBuffer, TEXTHIGHSCORE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_RUMF).getText());
+    textHighScore.setWildcard(textHighScoreBuffer);
+    textHighScore.resizeToCurrentText();
+    textHighScore.setTypedText(touchgfx::TypedText(T___SINGLEUSE_4J5B));
+    textHighScore.setVisible(false);
+    add(textHighScore);
 }
 
 Screen2ViewBase::~Screen2ViewBase()
@@ -69,4 +93,15 @@ Screen2ViewBase::~Screen2ViewBase()
 void Screen2ViewBase::setupScreen()
 {
 
+}
+
+void Screen2ViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
+{
+    if (&src == &homeButton)
+    {
+        //Interaction1
+        //When homeButton clicked change screen to Screen1
+        //Go to Screen1 with screen transition towards West
+        application().gotoScreen1ScreenSlideTransitionWest();
+    }
 }

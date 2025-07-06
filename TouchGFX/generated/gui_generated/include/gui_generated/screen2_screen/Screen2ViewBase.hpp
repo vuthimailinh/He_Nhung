@@ -10,6 +10,8 @@
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/Button.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class Screen2ViewBase : public touchgfx::View<Screen2Presenter>
 {
@@ -35,11 +37,31 @@ protected:
     touchgfx::Image enemyBullet;
     touchgfx::Image enemyBullet_1;
     touchgfx::TextArea win;
-    touchgfx::Image home;
     touchgfx::Image bossBullet;
     touchgfx::Image enemy1;
+    touchgfx::Button homeButton;
+    touchgfx::TextAreaWithOneWildcard textScore;
+    touchgfx::TextAreaWithOneWildcard textHighScore;
+
+    /*
+     * Wildcard Buffers
+     */
+    static const uint16_t TEXTSCORE_SIZE = 20;
+    touchgfx::Unicode::UnicodeChar textScoreBuffer[TEXTSCORE_SIZE];
+    static const uint16_t TEXTHIGHSCORE_SIZE = 20;
+    touchgfx::Unicode::UnicodeChar textHighScoreBuffer[TEXTHIGHSCORE_SIZE];
 
 private:
+
+    /*
+     * Callback Declarations
+     */
+    touchgfx::Callback<Screen2ViewBase, const touchgfx::AbstractButton&> buttonCallback;
+
+    /*
+     * Callback Handler Declarations
+     */
+    void buttonCallbackHandler(const touchgfx::AbstractButton& src);
 
 };
 

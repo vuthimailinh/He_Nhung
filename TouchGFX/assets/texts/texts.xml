@@ -6,8 +6,17 @@
   <Texts>
     <TextGroup Id="Group1" />
     <TextGroup Id="Unsorted">
-      <Text Id="__SingleUse_YGKB" Alignment="Left" TypographyId="Large">
-        <Translation Language="GB">GALAGA</Translation>
+      <Text Id="__SingleUse_RUMF" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_4J5B" Alignment="Center" TypographyId="Default">
+        <Translation Language="GB">High Score: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_55Z0" Alignment="Center" TypographyId="Default">
+        <Translation Language="GB">Score: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_99PA" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">0</Translation>
       </Text>
       <Text Id="__SingleUse_MJHX" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">YOU WIN</Translation>

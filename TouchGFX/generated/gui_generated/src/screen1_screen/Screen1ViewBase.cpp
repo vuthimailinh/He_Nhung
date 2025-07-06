@@ -21,11 +21,9 @@ Screen1ViewBase::Screen1ViewBase() :
     Start.setAction(buttonCallback);
     add(Start);
 
-    galaga.setXY(38, 136);
-    galaga.setColor(touchgfx::Color::getColorFromRGB(222, 222, 38));
-    galaga.setLinespacing(0);
-    galaga.setTypedText(touchgfx::TypedText(T___SINGLEUSE_YGKB));
-    add(galaga);
+    image1.setXY(30, 95);
+    image1.setBitmap(touchgfx::Bitmap(BITMAP_GALAGA_LOGO_ID));
+    add(image1);
 }
 
 Screen1ViewBase::~Screen1ViewBase()

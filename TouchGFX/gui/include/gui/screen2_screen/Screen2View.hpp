@@ -11,7 +11,16 @@ public:
     virtual ~Screen2View() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
+    virtual void handleTickEvent();
+
 protected:
+    int16_t localImageX;
+	uint32_t tickCount;
+
+	int speed;
+	bool finish;
+	uint16_t score;
+	uint16_t highScore;
 };
 
 #endif // SCREEN2VIEW_HPP
