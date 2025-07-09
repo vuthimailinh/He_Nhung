@@ -7,7 +7,7 @@
     <TextGroup Id="Group1" />
     <TextGroup Id="Unsorted">
       <Text Id="__SingleUse_RUMF" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0</Translation>
+        <Translation Language="GB">0000</Translation>
       </Text>
       <Text Id="__SingleUse_4J5B" Alignment="Center" TypographyId="Default">
         <Translation Language="GB">High Score: &lt;value&gt;</Translation>
@@ -16,7 +16,7 @@
         <Translation Language="GB">Score: &lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_99PA" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0</Translation>
+        <Translation Language="GB">0000</Translation>
       </Text>
       <Text Id="__SingleUse_MJHX" Alignment="Left" TypographyId="Large">
         <Translation Language="GB">YOU WIN</Translation>
@@ -30,8 +30,9 @@
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="0123456789" />
+    <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="0123456789" />
+    <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="0123456789" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="RTL" FallbackCharacter="?" />
   </Typographies>
 </TextDatabase>

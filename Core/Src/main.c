@@ -104,10 +104,22 @@ const osThreadAttr_t myTask03_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for audioTask */
+osThreadId_t audioTaskHandle;
+const osThreadAttr_t audioTask_attributes = {
+  .name = "audioTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* USER CODE BEGIN PV */
 osThreadId_t inputQueueHandle;
 const osMessageQueueAttr_t inputQueue_attributes = {
   .name = "inputQueue"
+};
+
+osThreadId_t audioQueueHandle;
+const osMessageQueueAttr_t audioQueue_attributes = {
+  .name = "audioQueue"
 };
 uint8_t isRevD = 0; /* Applicable only for STM32F429I DISCOVERY REVD and above */
 /* USER CODE END PV */
@@ -126,6 +138,7 @@ static void MX_USART1_UART_Init(void);
 void StartDefaultTask(void *argument);
 extern void TouchGFX_Task(void *argument);
 void StartTask03(void *argument);
+void StartTask04(void *argument);
 
 /* USER CODE BEGIN PFP */
 static void BSP_SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *Command);
@@ -162,8 +175,10 @@ uint16_t                  IOE_ReadMultiple(uint8_t Addr, uint8_t Reg, uint8_t *p
 /* USER CODE BEGIN 0 */
 static LCD_DrvTypeDef* LcdDrv;
 char msg[50];
+uint8_t audio_result = 0;
 uint32_t I2c3Timeout = I2C3_TIMEOUT_MAX; /*<! Value of Timeout when I2C communication fails */
 uint32_t Spi5Timeout = SPI5_TIMEOUT_MAX; /*<! Value of Timeout when SPI communication fails */
+
 /* USER CODE END 0 */
 
 /**
@@ -229,6 +244,7 @@ int main(void)
   /* add queues, ... */
 
   inputQueueHandle = osMessageQueueNew (8, sizeof(uint8_t), &inputQueue_attributes);
+  audioQueueHandle = osMessageQueueNew (8, sizeof(uint8_t), &audioQueue_attributes);
 
   /* USER CODE END RTOS_QUEUES */
 
@@ -241,6 +257,9 @@ int main(void)
 
   /* creation of myTask03 */
   myTask03Handle = osThreadNew(StartTask03, NULL, &myTask03_attributes);
+
+  /* creation of audioTask */
+  audioTaskHandle = osThreadNew(StartTask04, NULL, &audioTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -715,6 +734,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : VSYNC_FREQ_Pin RENDER_TIME_Pin FRAME_RATE_Pin MCU_ACTIVE_Pin */
@@ -738,10 +760,23 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PC5 */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PD12 PD13 */
@@ -1126,13 +1161,48 @@ void StartTask03(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == GPIO_PIN_RESET) {
+	  if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5) == GPIO_PIN_RESET) {
 		  uint8_t data = 'S';
 		  osMessageQueuePut(inputQueueHandle, &data, 0, 10);
+			  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, SET);
+			  osDelay(100);
+			  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, RESET);
 	  }
     osDelay(300);
   }
   /* USER CODE END StartTask03 */
+}
+
+/* USER CODE BEGIN Header_StartTask04 */
+/**
+* @brief Function implementing the audioTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask04 */
+void StartTask04(void *argument)
+{
+  /* USER CODE BEGIN StartTask04 */
+  /* Infinite loop */
+  for(;;)
+  {
+	  if (osMessageQueueGetCount(audioQueueHandle) > 0) {
+	  		osMessageQueueGet(audioQueueHandle, &audio_result, NULL, osWaitForever);
+
+	  		if(audio_result == 'D'){
+				 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, SET);
+				 osDelay(100);
+				 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, RESET);
+				 osDelay(50);
+				 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, SET);
+				 osDelay(100);
+				 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, RESET);
+	  		}
+	  }
+
+    osDelay(1);
+  }
+  /* USER CODE END StartTask04 */
 }
 
 /**

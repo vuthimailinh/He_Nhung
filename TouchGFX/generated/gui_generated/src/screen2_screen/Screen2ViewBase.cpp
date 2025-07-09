@@ -62,26 +62,22 @@ Screen2ViewBase::Screen2ViewBase() :
     homeButton.setAction(buttonCallback);
     add(homeButton);
 
-    textScore.setXY(79, 132);
+    textScore.setXY(52, 160);
     textScore.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     textScore.setLinespacing(0);
-    textScore.setWideTextAction(WIDE_TEXT_WORDWRAP);
     Unicode::snprintf(textScoreBuffer, TEXTSCORE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_99PA).getText());
     textScore.setWildcard(textScoreBuffer);
     textScore.resizeToCurrentText();
     textScore.setTypedText(touchgfx::TypedText(T___SINGLEUSE_55Z0));
-    textScore.setVisible(false);
     add(textScore);
 
-    textHighScore.setXY(60, 208);
+    textHighScore.setXY(31, 208);
     textHighScore.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     textHighScore.setLinespacing(0);
-    textHighScore.setWideTextAction(WIDE_TEXT_WORDWRAP);
     Unicode::snprintf(textHighScoreBuffer, TEXTHIGHSCORE_SIZE, "%s", touchgfx::TypedText(T___SINGLEUSE_RUMF).getText());
     textHighScore.setWildcard(textHighScoreBuffer);
     textHighScore.resizeToCurrentText();
     textHighScore.setTypedText(touchgfx::TypedText(T___SINGLEUSE_4J5B));
-    textHighScore.setVisible(false);
     add(textHighScore);
 }
 

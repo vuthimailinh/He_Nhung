@@ -19,8 +19,8 @@ protected:
 
 	int speed;
 	bool finish;
-	uint16_t score;
-	uint16_t highScore;
+	int score;
+	int highScore;
 };
 
 #endif // SCREEN2VIEW_HPP

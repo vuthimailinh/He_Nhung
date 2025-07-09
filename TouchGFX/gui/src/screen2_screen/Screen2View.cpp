@@ -4,8 +4,13 @@
 #include "cmsis_os.h"
 
 extern osMessageQueueId_t inputQueueHandle;
+extern osMessageQueueId_t audioQueueHandle;
 uint8_t queue_result = 0;
 
+void shootAudio(){
+	 uint8_t data = 'D';
+	osMessageQueuePut(audioQueueHandle, &data, 0, 10);
+}
 static uint32_t randomSeed = 1474521;
 static uint32_t simpleRandom() {
 	randomSeed = randomSeed * 1103515245 + 12345;
@@ -34,6 +39,9 @@ int enemy1HP = 0;
 int enemy2HP = 0;
 int bossHP = 0;
 
+static int highScore = 0;
+
+
 uint16_t enemy1Score = 0;
 uint16_t enemy2Score = 0;
 uint16_t bossScore = 0;
@@ -51,6 +59,7 @@ Screen2View::Screen2View()
 	speed = 2;
 	finish = false;
 }
+
 
 void Screen2View::setupScreen()
 {
@@ -93,7 +102,6 @@ void Screen2View::setupScreen()
 
     finish = false;
     score = 0;
-    highScore = 0;
 
     enemy1HP = 1;
     enemy2HP = 1;
@@ -212,11 +220,13 @@ void Screen2View::handleTickEvent() {
 			playerShip.setVisible(false);
 			gameOver.setVisible(true);
 		    homeButton.setVisible(true);
-		    Unicode::snprintf(textScoreBuffer, TEXTSCORE_SIZE, "%d", score);
+		    Unicode::snprintf(textScoreBuffer, 6, "%d", (int)score);
+			Unicode::snprintf(textHighScoreBuffer, 6, "%d", (int)highScore);
 		    textScore.setVisible(true);
-		    Unicode::snprintf(textHighScoreBuffer, TEXTHIGHSCORE_SIZE, "%d", highScore);
+
 		    textHighScore.setVisible(true);
-			invalidate();
+
+		    invalidate();
 			return;
 		}
 	}
@@ -228,6 +238,7 @@ void Screen2View::handleTickEvent() {
 
 		if (checkCollision(Mbullet[i], enemy1)) {
 			Mbullet[i].setY(-100);
+			shootAudio();
 			enemy1HP--;
 			if (enemy1HP <= 0) {
 				enemy1.setY(400);
@@ -237,6 +248,7 @@ void Screen2View::handleTickEvent() {
 		if (checkCollision(Mbullet[i], enemy2)) {
 			Mbullet[i].setY(-100);
 			enemy2HP--;
+			shootAudio();
 			if (enemy2HP <= 0) {
 				enemy2.setY(400);
 				score += enemy2Score;
@@ -244,6 +256,7 @@ void Screen2View::handleTickEvent() {
 		}
 		if (checkCollision(Mbullet[i], boss)) {
 			Mbullet[i].setY(-100);
+			shootAudio();
 			bossHP--;
 			if (bossHP <= 0) {
 				boss.setY(400);
@@ -260,10 +273,14 @@ void Screen2View::handleTickEvent() {
 		finish = true;
 		win.setVisible(true);
 	    homeButton.setVisible(true);
-	    Unicode::snprintf(textScoreBuffer, TEXTSCORE_SIZE, "%d", score);
-	    textScore.setVisible(true);
-	    Unicode::snprintf(textHighScoreBuffer, TEXTHIGHSCORE_SIZE, "%d", highScore);
-	    textHighScore.setVisible(true);
+
+	    Unicode::snprintf(textScoreBuffer, 6, "%d", (int)score);
+		Unicode::snprintf(textHighScoreBuffer, 6, "%d", (int)highScore);
+		textScore.setVisible(true);
+		textHighScore.setVisible(true);
+
+	    invalidate();
+
 	}
 
 	invalidate();
